@@ -15,6 +15,8 @@ source("./R/ch_regime_plot.R")
 source("./R/ch_doys.R")
 source("./R/ch_axis_doy.R")
 ch_regime_plot(data.nn)
+data.2013 <- data.nn[data.nn$Date>="2013-01-01" & data.nn$Date<= "2013-12-31",]
+lines(ch_doys(data.2013$Date)$doy, data.2013$Flow, col="black")
 
 source("./R/ch_fdcurve.R")
 ch_fdcurve(data.nn)
