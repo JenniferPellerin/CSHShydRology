@@ -8,8 +8,8 @@
 #' the value and the data code. If unsuccessful, returns the value \code{FALSE}.
 #' @author Kevin Shook
 #' @seealso  \code{\link{ch_read_AHCCD_monthly}} \code{\link{ch_get_AHCCD_monthly}}
-#' @references Monthly AHCCD data are available from \url{http://www.ec.gc.ca/dccha-ahccd}. 
-#' Daily values must be requested. Any use of the data must cite 
+#' @references Daily AHCCD data are available from \url{http://crd-data-donnees-rdc.ec.gc.ca/CDAS/products/EC_data/AHCCD_daily/}. 
+#' Any use of the data must cite 
 #'\cite{Mekis, E and L.A. Vincent, 2011: An overview of the second generation 
 #'adjusted daily precipitation dataset for trend analysis in Canada. 
 #'Atmosphere-Ocean, 49 (2), 163-177.}
@@ -17,7 +17,8 @@
 #' @examples
 #' \dontrun{
 #'stoon_daily_tmax <- ch_read_AHCCD_daily("dx40657120.txt")}
-#' @import stringr utils
+#' @importFrom stringr str_split_fixed str_detect fixed
+#' @importFrom utils read.fwf
 #' @export
 
 ch_read_AHCCD_daily <- function(daily_file){
@@ -56,7 +57,6 @@ ch_read_AHCCD_daily <- function(daily_file){
   else {
     stop("Unrecognised file type")
   }
-    
     
   # set up homes for data
   value <- c(0)
@@ -113,7 +113,12 @@ ch_read_AHCCD_daily <- function(daily_file){
   all_classes <- c(header_classes, cols_classes)
   
 
-  cols <- rep.int(c(7,1),31)
+  # set columns widths depending on data type
+  if (val_type == "tmax" | val_type == "tmin" | val_type == "tmean")
+    cols <- rep.int(c(7,1),31)
+  else  
+    cols <- rep.int(c(8,1),31)
+  
   cols_classes <- rep.int(c('numeric', 'character'), 31)
   all <- c(header,cols)
   all_classes <- c(header_classes, cols_classes)

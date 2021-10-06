@@ -34,6 +34,8 @@
 #' }
 #'
 #' @export
+#' 
+#' @importFrom utils data
 #'
 #' @examples
 #' data("HYDAT_list")
@@ -59,7 +61,8 @@ ch_get_wscstation <- function(stnID, metadata = NULL) {
     return(stnID)
   }
 
-  if (stninfo$RHBN == TRUE) {
+  
+  if (!is.na(stninfo$RHBN) && stninfo$RHBN == TRUE) {
     (rhbn <- "*")
   }
 
